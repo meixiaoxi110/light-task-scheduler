@@ -58,7 +58,7 @@ public class SystemInitListener implements ServletContextListener {
                     ltsMonitorCfgPath = ltsMonitorCfgPath.replaceAll("%20", " ");
                 }
             }
-            MonitorAgentStartup.start(ltsMonitorCfgPath);
+            MonitorAgentStartup.start(ltsMonitorCfgPath + "/lts-admin.cfg", log4jPath);
         }
     }
 

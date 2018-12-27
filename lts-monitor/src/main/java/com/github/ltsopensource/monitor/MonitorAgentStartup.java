@@ -2,7 +2,9 @@ package com.github.ltsopensource.monitor;
 
 import com.github.ltsopensource.core.commons.utils.StringUtils;
 
+import java.io.*;
 import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -14,18 +16,22 @@ public class MonitorAgentStartup {
     private static final AtomicBoolean started = new AtomicBoolean(false);
 
     public static void main(String[] args) {
-        String cfgPath = args[0];
-        start(cfgPath);
+        String confPath = args[0];
+
+        String cfgPath = confPath + "/lts-monitor.cfg";
+        String log4jPath = confPath + "/log4j.properties";
+
+        start(cfgPath, log4jPath);
     }
 
-    public static void start(String cfgPath) {
+    public static void start(String cfgPath, String log4jPath) {
 
         if (!started.compareAndSet(false, true)) {
             return;
         }
 
         try {
-            MonitorCfg cfg = MonitorCfgLoader.load(cfgPath);
+            MonitorCfg cfg = MonitorCfgLoader.load(cfgPath, log4jPath);
 
             agent.setRegistryAddress(cfg.getRegistryAddress());
             agent.setClusterName(cfg.getClusterName());

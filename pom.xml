@@ -28,6 +28,7 @@
     </modules>
 
     <properties>
+        <jdk.version>1.8</jdk.version>
         <jedis.version>2.7.3</jedis.version>
         <fastjson.version>1.2.7</fastjson.version>
         <leveldbjni.version>1.8</leveldbjni.version>
@@ -39,20 +40,21 @@
         <junit.version>4.11</junit.version>
         <netty.version>4.0.20.Final</netty.version>
         <jcl_version>1.1</jcl_version>
-        <slf4j.version>1.7.5</slf4j.version>
+        <slf4j.version>1.7.25</slf4j.version>
         <log4j.version>1.2.16</log4j.version>
         <dbutils.version>1.6</dbutils.version>
-        <druid.version>1.0.14</druid.version>
-        <mysql.version>5.1.26</mysql.version>
+        <druid.version>1.1.10</druid.version>
+        <mysql.version>5.1.45</mysql.version>
         <sleepycat.version>5.0.73</sleepycat.version>
         <rocksdbjni.version>3.10.1</rocksdbjni.version>
         <h2.version>1.4.189</h2.version>
         <springframework.version>5.1.2.RELEASE</springframework.version>
+        <thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
         <mina.version>2.0.9</mina.version>
         <hessian.version>4.0.38</hessian.version>
         <mapdb.version>2.0-beta10</mapdb.version>
         <groovy.version>2.4.5</groovy.version>
-        <jackson.version>2.6.3</jackson.version>
+        <jackson.version>2.9.3</jackson.version>
         <aspectj.version>1.7.2</aspectj.version>
         <javax.mail.version>1.5.4</javax.mail.version>
         <spring.boot.version>2.1.0.RELEASE</spring.boot.version>

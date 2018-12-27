@@ -15,21 +15,15 @@ import java.util.Properties;
  */
 public class MonitorCfgLoader {
 
-    public static MonitorCfg load(String confPath) {
-
-        String cfgPath = confPath + "/lts-monitor.cfg";
-        String log4jPath = confPath + "/log4j.properties";
+    public static MonitorCfg load(String cfgPath, String log4jPath) {
 
         Properties conf = new Properties();
         File file = new File(cfgPath);
-        InputStream is = null;
+
         try {
-            is = new FileInputStream(file);
+            conf.load(new FileInputStream(file));
         } catch (FileNotFoundException e) {
             throw new CfgException("can not find " + cfgPath);
-        }
-        try {
-            conf.load(is);
         } catch (IOException e) {
             throw new CfgException("Read " + cfgPath + " error.", e);
         }
