@@ -36,21 +36,30 @@
 
     <mvc:resources mapping="/assets/**" location="/assets"/>
 
-    <bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
-        <property name="configLocation" value="/WEB-INF/views/velocity.properties"/>
+    <bean id="velocityConfig" class="com.github.ltsopensource.admin.velocity.view.VelocityConfigurer">
+        <property name="velocityProperties">
+            <props>
+                <prop key="resource.loader">webapp</prop>
+                <prop key="webapp.resource.loader.class">org.apache.velocity.tools.view.WebappResourceLoader</prop>
+                <prop key="webapp.resource.loader.path">/WEB-INF/views/</prop>
+                <prop key="webapp.resource.loader.cache">true</prop>
+                <prop key="webapp.resource.loader.modificationCheckInterval">300</prop>
+                <prop key="webapp.resource.loader.cache">false</prop>
+                <prop key="input.encoding">UTF-8</prop>
+                <prop key="output.encoding">UTF-8</prop>
+            </props>
+        </property>
     </bean>
     <bean id="viewResolver"
-          class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
+          class="com.github.ltsopensource.admin.velocity.view.VelocityLayoutViewResolver">
         <property name="cache" value="false"/>
         <property name="prefix" value="/templates/"/>
         <property name="layoutUrl" value="/layout/main.vm"/>
         <property name="suffix" value=".vm"/>
-        <property name="exposeSpringMacroHelpers" value="true" />
-        <property name="contentType" value="text/html;charset=UTF-8" />
-        <property name="viewClass"
-                  value="org.springframework.web.servlet.view.velocity.VelocityLayoutView" />
+        <property name="exposeSpringMacroHelpers" value="true"/>
+        <property name="contentType" value="text/html;charset=UTF-8"/>
+        <property name="viewClass" value="com.github.ltsopensource.admin.velocity.view.VelocityLayoutView"/>
     </bean>
-
     <bean class="com.github.ltsopensource.admin.web.support.ExceptionHandlerResolver"/>
 
 </beans>

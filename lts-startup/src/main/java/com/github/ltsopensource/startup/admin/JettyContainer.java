@@ -1,13 +1,11 @@
 package com.github.ltsopensource.startup.admin;
 
-import org.mortbay.jetty.Server;
-import org.mortbay.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.webapp.WebAppContext;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -38,9 +36,7 @@ public class JettyContainer {
             WebAppContext webapp = new WebAppContext();
             webapp.setWar(confPath + "/war/lts-admin.war");
             webapp.setContextPath(contextPath);
-            Map<String, String> initParams = new HashMap<String, String>();
-            initParams.put("lts.admin.config.path", confPath + "/conf");
-            webapp.setInitParams(initParams);
+            webapp.setInitParameter("lts.admin.config.path", confPath + "/conf");
             server.setHandler(webapp);
             server.setStopAtShutdown(true);
             server.start();

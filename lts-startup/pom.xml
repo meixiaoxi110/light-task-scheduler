@@ -42,7 +42,7 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.sgroschupf</groupId>
+            <groupId>com.101tec</groupId>
             <artifactId>zkclient</artifactId>
             <scope>provided</scope>
         </dependency>
@@ -132,16 +132,22 @@
             <version>${springframework.version}</version>
             <scope>provided</scope>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>org.mortbay.jetty</groupId>-->
-        <!--<artifactId>jsp-2.1-glassfish</artifactId>-->
-        <!--<version>2.1.v20100127</version>-->
-        <!--</dependency>-->
         <dependency>
-            <groupId>org.mortbay.jetty</groupId>
-            <artifactId>jetty</artifactId>
-            <version>6.1.26</version>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>9.4.10.RC1</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>9.4.10.RC1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <version>9.4.10.RC1</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -180,7 +186,7 @@
                     <artifactId>log4j</artifactId>
                 </dependency>
                 <dependency>
-                    <groupId>com.github.sgroschupf</groupId>
+                    <groupId>com.101tec</groupId>
                     <artifactId>zkclient</artifactId>
                 </dependency>
                 <dependency>
@@ -253,9 +259,30 @@
             <id>lts-admin</id>
             <dependencies>
                 <dependency>
-                    <groupId>org.mortbay.jetty</groupId>
-                    <artifactId>jetty</artifactId>
-                    <version>6.1.26</version>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-server</artifactId>
+                    <version>9.4.10.RC1</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-webapp</artifactId>
+                    <version>9.4.10.RC1</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-servlet</artifactId>
+                    <version>9.4.10.RC1</version>
+                </dependency>
+
+                <dependency>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>javax.servlet-api</artifactId>
+                    <version>3.1.0</version>
+                </dependency>
+                <dependency>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>jstl</artifactId>
+                    <version>1.2</version>
                 </dependency>
             </dependencies>
         </profile>
