@@ -28,7 +28,7 @@ public class AppConfigurer {
             if (load.compareAndSet(false, true)) {
                 Properties conf = new Properties();
 
-                if (StringUtils.isNotEmpty(confPath)) {
+                if (StringUtils.isNotEmpty(confPath) && !confPath.endsWith(".cfg")) {
                     path = confPath + "/" + CONF_NAME;
                     InputStream is = new FileInputStream(new File(path));
                     conf.load(is);

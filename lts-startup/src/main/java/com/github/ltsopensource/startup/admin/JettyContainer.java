@@ -1,7 +1,5 @@
 package com.github.ltsopensource.startup.admin;
 
-import com.github.ltsopensource.core.logger.Logger;
-import com.github.ltsopensource.core.logger.LoggerFactory;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 
@@ -15,17 +13,13 @@ import java.util.Properties;
  */
 public class JettyContainer {
 
-    private static Logger log = LoggerFactory.getLogger(JettyContainer.class);
-
     public static void main(String[] args) {
         try {
             String confPath = args[0];
 
             confPath = confPath.trim();
-            Properties conf = new Properties();
-            confPath = confPath + "/conf/lts-admin.cfg";
-            log.info("config path: ", confPath);
             InputStream is = new FileInputStream(new File(confPath + "/conf/lts-admin.cfg"));
+            Properties conf = new Properties();
             conf.load(is);
             String port = conf.getProperty("port");
             if (port == null || port.trim().equals("")) {
@@ -41,7 +35,8 @@ public class JettyContainer {
             WebAppContext webapp = new WebAppContext();
             webapp.setWar(confPath + "/war/lts-admin.war");
             webapp.setContextPath(contextPath);
-            webapp.setInitParameter("lts.admin.config.path", confPath + "/conf");
+            webapp.setInitParameter("lts.admin.config.path", confPath + "/conf/lts-admin.cfg");
+            webapp.setInitParameter("lts.admin.log.config.path", confPath + "conf/log4j.properties");
             server.setHandler(webapp);
             server.setStopAtShutdown(true);
             server.start();

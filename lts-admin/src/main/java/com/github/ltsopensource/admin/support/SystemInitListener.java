@@ -22,6 +22,7 @@ public class SystemInitListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
         String confPath = servletContextEvent.getServletContext().getInitParameter("lts.admin.config.path");
+        String logConfPath = servletContextEvent.getServletContext().getInitParameter("lts.admin.log.config.path");
         if (StringUtils.isNotEmpty(confPath)) {
             System.out.println("lts.admin.config.path : " + confPath);
         }
@@ -42,23 +43,14 @@ public class SystemInitListener implements ServletContextListener {
             LoggerFactory.setLoggerAdapter(loggerAdapter);
         }
 
-        String log4jPath = confPath + "/log4j.properties";
-        if (FileUtils.exist(log4jPath)) {
+        if (FileUtils.exist(logConfPath)) {
             //  log4j 配置文件路径
-            PropertyConfigurator.configure(log4jPath);
+            PropertyConfigurator.configure(logConfPath);
         }
 
         boolean monitorAgentEnable = Boolean.valueOf(AppConfigurer.getProperty("lts.monitorAgent.enable", "true"));
         if (monitorAgentEnable) {
-            String ltsMonitorCfgPath = confPath;
-            if (StringUtils.isEmpty(ltsMonitorCfgPath)) {
-                ltsMonitorCfgPath = this.getClass().getResource("/").getPath();
-                if (PlatformUtils.isWindows()) {
-                    // 替换window下空格问题
-                    ltsMonitorCfgPath = ltsMonitorCfgPath.replaceAll("%20", " ");
-                }
-            }
-            MonitorAgentStartup.start(ltsMonitorCfgPath + "/lts-admin.cfg", log4jPath);
+            MonitorAgentStartup.start(confPath, logConfPath);
         }
     }
 
