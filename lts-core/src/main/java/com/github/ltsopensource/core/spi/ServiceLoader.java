@@ -84,7 +84,8 @@ public class ServiceLoader {
                 }
                 String className = definition.clazz;
                 ClassLoader classLoader = definition.classLoader;
-                T srv = clazz.cast(ClassLoaderUtil.newInstance(classLoader, className));
+                //T srv = clazz.cast(ClassLoaderUtil.newInstance(classLoader, className));
+                T srv = ClassLoaderUtil.newInstance(classLoader, className);
                 cachedObjectMap.putIfAbsent(uniqueKey, srv);
                 return srv;
             }

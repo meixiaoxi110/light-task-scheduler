@@ -43,7 +43,7 @@ public class SystemInitListener implements ServletContextListener {
             LoggerFactory.setLoggerAdapter(loggerAdapter);
         }
 
-        if (FileUtils.exist(logConfPath)) {
+        if (logConfPath != null && FileUtils.exist(logConfPath)) {
             //  log4j 配置文件路径
             PropertyConfigurator.configure(logConfPath);
         }
