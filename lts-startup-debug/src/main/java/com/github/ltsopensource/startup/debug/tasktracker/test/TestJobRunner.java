@@ -1,4 +1,4 @@
-package com.github.ltsopensource.startup.tasktracker.test;
+package com.github.ltsopensource.startup.debug.tasktracker.test;
 
 import com.github.ltsopensource.core.commons.utils.DateUtils;
 import com.github.ltsopensource.core.domain.Action;
@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class TestJobRunner implements JobRunner {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestJobRunner.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(com.github.ltsopensource.startup.tasktracker.test.TestJobRunner.class);
     private static AtomicLong counter = new AtomicLong(0);
     @Override
     public Result run(JobContext jobContext) throws Throwable {

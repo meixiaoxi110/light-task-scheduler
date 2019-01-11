@@ -26,6 +26,8 @@ import com.github.ltsopensource.monitor.access.MonitorAccessFactory;
 import com.github.ltsopensource.monitor.cmd.MDataAddHttpCmd;
 import com.github.ltsopensource.monitor.cmd.MDataSrv;
 
+import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -39,7 +41,7 @@ public class MonitorAgent {
     private Config config;
     private Registry registry;
     private MonitorNode node;
-    private AtomicBoolean start = new AtomicBoolean(false);
+    private final AtomicBoolean started = new AtomicBoolean(false);
 
     public MonitorAgent() {
         this.appContext = new MonitorAppContext();
@@ -49,47 +51,68 @@ public class MonitorAgent {
         this.appContext.setConfig(config);
     }
 
-    public void start() {
-
-        if (!start.compareAndSet(false, true)) {
+    public void start(Properties cfg) {
+        if (!started.compareAndSet(false, true)) {
             return;
         }
+        try {
+            MonitorCfg monitorCfg = MonitorCfgLoader.buildMonitorCfg(cfg);
+            start(monitorCfg);
+        } catch (CfgException e) {
+            System.err.println("Monitor Startup Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
+    public void start(MonitorCfg cfg) {
+        this.setRegistryAddress(cfg.getRegistryAddress());
+        this.setClusterName(cfg.getClusterName());
+        if (StringUtils.isNotEmpty(cfg.getBindIp())) {
+            this.setBindIp(cfg.getBindIp());
+        }
+        if (StringUtils.isNotEmpty(cfg.getIdentity())) {
+            this.setIdentity(cfg.getIdentity());
+        }
+        for (Map.Entry<String, String> config : cfg.getConfigs().entrySet()) {
+            this.addConfig(config.getKey(), config.getValue());
+        }
+        start();
+    }
+
+    public void start() {
         try {
             // 初始化
             intConfig();
-
             // 默认端口
             int port = config.getParameter(ExtConfig.HTTP_CMD_PORT, 8730);
             this.httpCmdServer = HttpCmdServer.Factory.getHttpCmdServer(config.getIp(), port);
-
             this.httpCmdServer.registerCommands(
                     new MDataAddHttpCmd(this.appContext),
                     new StatusCheckHttpCmd(config),
                     new JVMInfoGetHttpCmd(config));
             // 启动
             this.httpCmdServer.start();
-
             // 设置真正启动的端口
             this.appContext.setHttpCmdPort(httpCmdServer.getPort());
-
             initNode();
-
             // 暴露在 zk 上
             initRegistry();
             registry.register(node);
-
             JVMMonitor.start();
             AliveKeeping.start();
-
             LOGGER.info("========== Start Monitor Success");
-
         } catch (Throwable t) {
             LOGGER.error("========== Start Monitor Error:", t);
         }
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                stop();
+            }
+        }));
     }
 
-    public void initRegistry() {
+    private void initRegistry() {
         registry = RegistryFactory.getRegistry(appContext);
         if (registry instanceof AbstractRegistry) {
             ((AbstractRegistry) registry).setNode(node);
@@ -135,7 +158,7 @@ public class MonitorAgent {
     }
 
     public void stop() {
-        if (!start.compareAndSet(true, false)) {
+        if (!started.compareAndSet(true, false)) {
             return;
         }
 

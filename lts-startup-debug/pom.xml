@@ -15,23 +15,29 @@
         <dependency>
             <groupId>com.github.ltsopensource</groupId>
             <artifactId>lts-jobtracker</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.ltsopensource</groupId>
             <artifactId>lts-monitor</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.ltsopensource</groupId>
             <artifactId>lts-tasktracker</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.ltsopensource</groupId>
             <artifactId>lts-spring</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.ltsopensource</groupId>
+            <artifactId>lts-startup</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- spring相关包引入 -->
         <dependency>
             <groupId>org.springframework</groupId>

@@ -1,13 +1,12 @@
 package com.github.ltsopensource.admin.support;
 
 import com.github.ltsopensource.core.commons.file.FileUtils;
-import com.github.ltsopensource.core.commons.utils.PlatformUtils;
 import com.github.ltsopensource.core.commons.utils.StringUtils;
 import com.github.ltsopensource.core.compiler.AbstractCompiler;
 import com.github.ltsopensource.core.constant.ExtConfig;
 import com.github.ltsopensource.core.json.JSONFactory;
 import com.github.ltsopensource.core.logger.LoggerFactory;
-import com.github.ltsopensource.monitor.MonitorAgentStartup;
+import com.github.ltsopensource.monitor.MonitorAgent;
 import org.apache.log4j.PropertyConfigurator;
 
 import javax.servlet.ServletContextEvent;
@@ -27,7 +26,7 @@ public class SystemInitListener implements ServletContextListener {
         if (StringUtils.isEmpty(confPath)) {
             confPath = AppConfigurer.CONF_NAME;
         }
-        if(StringUtils.isEmpty(logConfPath)){
+        if (StringUtils.isEmpty(logConfPath)) {
             logConfPath = AppConfigurer.LOG_NAME;
         }
         Properties conf = AppConfigurer.load(confPath);
@@ -53,12 +52,13 @@ public class SystemInitListener implements ServletContextListener {
 
         boolean monitorAgentEnable = Boolean.valueOf(AppConfigurer.getProperty("lts.monitorAgent.enable", "true"));
         if (monitorAgentEnable) {
-            MonitorAgentStartup.start(conf);
+            MonitorAgent agent = new MonitorAgent();
+            agent.start(conf);
         }
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        MonitorAgentStartup.stop();
+        new MonitorAgent().stop();
     }
 }

@@ -1,4 +1,4 @@
-package com.github.ltsopensource.startup.admin;
+package com.github.ltsopensource.startup.debug.admin;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
@@ -40,9 +40,6 @@ public class JettyContainer {
             server.setHandler(webapp);
             server.setStopAtShutdown(true);
             server.start();
-
-            System.out.println("LTS-Admin started. http://" + NetUtils.getLocalHost() + ":" + port + (contextPath == "/" ? "" : contextPath) + "/index.htm");
-
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);

@@ -1,5 +1,6 @@
-package com.github.ltsopensource.startup.tasktracker;
+package com.github.ltsopensource.startup.debug.tasktracker;
 
+import com.github.ltsopensource.startup.tasktracker.*;
 import com.github.ltsopensource.tasktracker.TaskTracker;
 
 /**
