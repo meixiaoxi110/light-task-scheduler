@@ -24,6 +24,7 @@
         <module>lts-spring</module>
         <module>lts-startup</module>
         <module>lts-monitor</module>
+        <module>lts-startup-debug</module>
         <module>lts</module>
     </modules>
 
