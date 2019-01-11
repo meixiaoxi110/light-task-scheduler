@@ -25,39 +25,52 @@ public class MonitorAgentStartup {
     }
 
     public static void start(String cfgPath, String log4jPath) {
-
         if (!started.compareAndSet(false, true)) {
             return;
         }
-
         try {
             MonitorCfg cfg = MonitorCfgLoader.load(cfgPath, log4jPath);
-
-            agent.setRegistryAddress(cfg.getRegistryAddress());
-            agent.setClusterName(cfg.getClusterName());
-            if (StringUtils.isNotEmpty(cfg.getBindIp())) {
-                agent.setBindIp(cfg.getBindIp());
-            }
-            if (StringUtils.isNotEmpty(cfg.getIdentity())) {
-                agent.setIdentity(cfg.getIdentity());
-            }
-            for (Map.Entry<String, String> config : cfg.getConfigs().entrySet()) {
-                agent.addConfig(config.getKey(), config.getValue());
-            }
-
-            agent.start();
-
-            Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    agent.stop();
-                }
-            }));
-
+            startWithCfg(cfg);
         } catch (CfgException e) {
             System.err.println("Monitor Startup Error: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public static void start(Properties cfg) {
+        if (!started.compareAndSet(false, true)) {
+            return;
+        }
+        try {
+            MonitorCfg monitorCfg = MonitorCfgLoader.buildMonitorCfg(cfg);
+            startWithCfg(monitorCfg);
+        } catch (CfgException e) {
+            System.err.println("Monitor Startup Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private static void startWithCfg(MonitorCfg cfg) {
+        agent.setRegistryAddress(cfg.getRegistryAddress());
+        agent.setClusterName(cfg.getClusterName());
+        if (StringUtils.isNotEmpty(cfg.getBindIp())) {
+            agent.setBindIp(cfg.getBindIp());
+        }
+        if (StringUtils.isNotEmpty(cfg.getIdentity())) {
+            agent.setIdentity(cfg.getIdentity());
+        }
+        for (Map.Entry<String, String> config : cfg.getConfigs().entrySet()) {
+            agent.addConfig(config.getKey(), config.getValue());
+        }
+
+        agent.start();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                agent.stop();
+            }
+        }));
     }
 
     public static void stop() {

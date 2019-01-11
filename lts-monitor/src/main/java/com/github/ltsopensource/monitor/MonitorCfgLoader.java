@@ -27,7 +27,20 @@ public class MonitorCfgLoader {
         } catch (IOException e) {
             throw new CfgException("Read " + cfgPath + " error.", e);
         }
+        MonitorCfg cfg = buildMonitorCfg(conf);
+        if (FileUtils.exist(log4jPath)) {
+            //  log4j 配置文件路径
+            PropertyConfigurator.configure(log4jPath);
+        }
+        return cfg;
+    }
 
+    /**
+     * properties转monitorcfg
+     * @param conf
+     * @return
+     */
+    public static MonitorCfg buildMonitorCfg(Properties conf) {
         MonitorCfg cfg = new MonitorCfg();
         try {
             String registryAddress = conf.getProperty("registryAddress");
@@ -61,12 +74,6 @@ public class MonitorCfgLoader {
         } catch (Exception e) {
             throw new CfgException(e);
         }
-
-        if (FileUtils.exist(log4jPath)) {
-            //  log4j 配置文件路径
-            PropertyConfigurator.configure(log4jPath);
-        }
-
         return cfg;
     }
 

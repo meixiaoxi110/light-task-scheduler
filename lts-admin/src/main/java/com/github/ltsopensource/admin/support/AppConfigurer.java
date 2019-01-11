@@ -18,17 +18,18 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class AppConfigurer {
 
     private static final Map<String, String> CONFIG = new HashMap<String, String>();
-    private static final String CONF_NAME = "lts-admin.cfg";
+    public static final String CONF_NAME = "lts-admin.cfg";
+    public static final String LOG_NAME = "lts-admin.cfg";
 
     private static AtomicBoolean load = new AtomicBoolean(false);
 
-    public static void load(String confPath) {
+    public static Properties load(String confPath) {
         String path = "";
         try {
             if (load.compareAndSet(false, true)) {
                 Properties conf = new Properties();
 
-                if (StringUtils.isNotEmpty(confPath) && !confPath.endsWith(".cfg")) {
+                if (!confPath.endsWith(".cfg")) {
                     path = confPath + "/" + CONF_NAME;
                     InputStream is = new FileInputStream(new File(path));
                     conf.load(is);
@@ -43,10 +44,12 @@ public class AppConfigurer {
                     String value = entry.getValue() == null ? null : entry.getValue().toString();
                     CONFIG.put(key, value);
                 }
+                return conf;
             }
         } catch (Exception e) {
             throw new RuntimeException("Load config[" + path + "] error ", e);
         }
+        return null;
     }
 
     public static Map<String, String> allConfig() {

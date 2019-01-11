@@ -12,6 +12,7 @@ import org.apache.log4j.PropertyConfigurator;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import java.util.Properties;
 
 /**
  * @author Robert HG (254963746@qq.com) on 9/2/15.
@@ -23,11 +24,13 @@ public class SystemInitListener implements ServletContextListener {
 
         String confPath = servletContextEvent.getServletContext().getInitParameter("lts.admin.config.path");
         String logConfPath = servletContextEvent.getServletContext().getInitParameter("lts.admin.log.config.path");
-        if (StringUtils.isNotEmpty(confPath)) {
-            System.out.println("lts.admin.config.path : " + confPath);
+        if (StringUtils.isEmpty(confPath)) {
+            confPath = AppConfigurer.CONF_NAME;
         }
-        AppConfigurer.load(confPath);
-
+        if(StringUtils.isEmpty(logConfPath)){
+            logConfPath = AppConfigurer.LOG_NAME;
+        }
+        Properties conf = AppConfigurer.load(confPath);
         String compiler = AppConfigurer.getProperty("configs." + ExtConfig.COMPILER);
         if (StringUtils.isNotEmpty(compiler)) {
             AbstractCompiler.setCompiler(compiler);
@@ -43,14 +46,14 @@ public class SystemInitListener implements ServletContextListener {
             LoggerFactory.setLoggerAdapter(loggerAdapter);
         }
 
-        if (logConfPath != null && FileUtils.exist(logConfPath)) {
+        if (FileUtils.exist(logConfPath)) {
             //  log4j 配置文件路径
             PropertyConfigurator.configure(logConfPath);
         }
 
         boolean monitorAgentEnable = Boolean.valueOf(AppConfigurer.getProperty("lts.monitorAgent.enable", "true"));
         if (monitorAgentEnable) {
-            MonitorAgentStartup.start(confPath, logConfPath);
+            MonitorAgentStartup.start(conf);
         }
     }
 
