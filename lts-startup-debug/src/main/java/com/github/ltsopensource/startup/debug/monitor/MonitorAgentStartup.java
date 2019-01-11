@@ -27,7 +27,7 @@ public class MonitorAgentStartup {
         start(cfgPath, log4jPath);
     }
 
-    public static void start(String cfgPath, String log4jPath) {
+    private static void start(String cfgPath, String log4jPath) {
         if (!started.compareAndSet(false, true)) {
             return;
         }
