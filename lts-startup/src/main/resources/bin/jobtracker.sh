@@ -7,14 +7,14 @@ JOB_TRACKER_HOME="${BASH_SOURCE-$0}"
 JOB_TRACKER_HOME="$(dirname "${JOB_TRACKER_HOME}")"
 JOB_TRACKER_HOME="$(cd "${JOB_TRACKER_HOME}"; pwd)"
 
-if [ "$JAVA_HOME" != "" ]; then
+if [[ "$JAVA_HOME" != "" ]]; then
   JAVA="$JAVA_HOME/bin/java"
 else
   JAVA=java
 fi
 
-mkdir -p $JOB_TRACKER_HOME/../logs
-mkdir -p $JOB_TRACKER_HOME/../pid
+mkdir -p ${JOB_TRACKER_HOME}/../logs
+mkdir -p ${JOB_TRACKER_HOME}/../pid
 
 #把lib下的所有jar都加入到classpath中
 for i in "$JOB_TRACKER_HOME"/../lib/*.jar
@@ -29,7 +29,7 @@ NODE_NAME="$1"  # zoo
 # 转化为绝对路径
 CONF_HOME="${JOB_TRACKER_HOME}/../."
 CONF_HOME="$(cd "$(dirname "${CONF_HOME}")"; pwd)"
-CONF_HOME="$CONF_HOME/conf/$NODE_NAME"
+CONF_HOME="$CONF_HOME/conf/jobtracker/$NODE_NAME"
 
 _LTS_DAEMON_OUT="$JOB_TRACKER_HOME/../logs/jobtracker-$NODE_NAME.out"
 LTS_MAIN="JobTrackerStartup"
@@ -39,7 +39,7 @@ LTS_PID_FILE="$JOB_TRACKER_HOME/../pid/jobtracker-$NODE_NAME.pid"
 case $2 in
 start)
     echo "Starting LTS JOB_TRACKER [$NODE_NAME] ... "
-    if [ -f "$LTS_PID_FILE" ]; then
+    if [[ -f "$LTS_PID_FILE" ]]; then
       if kill -0 `cat "$LTS_PID_FILE"` > /dev/null 2>&1; then
          echo $command already running as process `cat "$LTS_PID_FILE"`. 
          exit 0
@@ -69,7 +69,7 @@ restart)
 ;;
 stop)
     echo "Stopping LTS JOB_TRACKER [$NODE_NAME] ... "
-    if [ ! -f "$LTS_PID_FILE" ]
+    if [[ ! -f "$LTS_PID_FILE" ]]
     then
       echo "no jobtracker to started (could not find file $LTS_PID_FILE)"
     else

@@ -18,7 +18,7 @@ public class JettyContainer {
             String confPath = args[0];
 
             confPath = confPath.trim();
-            InputStream is = new FileInputStream(new File(confPath + "/conf/lts-admin.cfg"));
+            InputStream is = new FileInputStream(new File(confPath + "/conf/admin/lts-admin.cfg"));
             Properties conf = new Properties();
             conf.load(is);
             String port = conf.getProperty("port");
@@ -35,8 +35,8 @@ public class JettyContainer {
             WebAppContext webapp = new WebAppContext();
             webapp.setWar(confPath + "/war/lts-admin.war");
             webapp.setContextPath(contextPath);
-            webapp.setInitParameter("lts.admin.config.path", confPath + "/conf/lts-admin.cfg");
-            webapp.setInitParameter("lts.admin.log.config.path", confPath + "conf/log4j.properties");
+            webapp.setInitParameter("lts.admin.config.path", confPath + "/conf/admin/lts-admin.cfg");
+            webapp.setInitParameter("lts.admin.log.config.path", confPath + "conf/tasktracker/log4j.properties");
             server.setHandler(webapp);
             server.setStopAtShutdown(true);
             server.start();
