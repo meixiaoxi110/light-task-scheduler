@@ -23,7 +23,7 @@
         <module>lts-admin</module>
         <module>lts-spring</module>
         <module>lts-startup</module>
-        <module>lts-startup-test</module>
+        <module>lts-startup-debug</module>
         <module>lts-monitor</module>
         <module>lts</module>
     </modules>
@@ -267,6 +267,18 @@
     </dependencyManagement>
     <profiles>
         <profile>
+            <id>jdk18</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <jdk>1.8</jdk>
+            </activation>
+            <properties>
+                <maven.compiler.source>1.8</maven.compiler.source>
+                <maven.compiler.target>1.8</maven.compiler.target>
+                <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+            </properties>
+        </profile>
+        <profile>
             <id>dev</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -276,8 +288,8 @@
                     <plugin>
                         <artifactId>maven-compiler-plugin</artifactId>
                         <configuration>
-                            <source>1.6</source>
-                            <target>1.6</target>
+                            <source>1.8</source>
+                            <target>1.8</target>
                             <encoding>UTF-8</encoding>
                         </configuration>
                     </plugin>
@@ -304,10 +316,11 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
                         <configuration>
-                            <source>1.6</source>
-                            <target>1.6</target>
+                            <source>1.8</source>
+                            <target>1.8</target>
                             <encoding>UTF-8</encoding>
                         </configuration>
                     </plugin>
