@@ -19,7 +19,7 @@ public class MonitorAgentDebug {
     private static final AtomicBoolean started = new AtomicBoolean(false);
 
     public static void main(String[] args) {
-        String confPath = args[0];
+       String confPath = args[0];
 
         String cfgPath = confPath + "/lts-monitor.cfg";
         String log4jPath = confPath + "/log4j.properties";
